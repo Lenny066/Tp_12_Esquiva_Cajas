@@ -14,7 +14,7 @@ public class UiManager : MonoBehaviour
         if (contando)
         {
             tiempo += Time.deltaTime;
-            tiempoText.text = "Tiempo: " + tiempo.ToString("F2");
+            tiempoText.text = tiempo.ToString("F2");
         }
     }
 
