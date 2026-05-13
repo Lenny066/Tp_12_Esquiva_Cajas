@@ -4,23 +4,26 @@ using UnityEngine;
 
 public class PlayerControler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private float[] posiciones = { -2f, 0f, 2f };
+    private int indiceActual = 1; // Empieza en el centro (0f)
 
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-              transform.Translate(2f,0,0);
+            if (indiceActual < posiciones.Length - 1)
+            {
+                indiceActual++;
+                transform.position = new Vector3(posiciones[indiceActual], transform.position.y, transform.position.z);
+            }
         }
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-              transform.Translate(-2f,0,0);
+            if (indiceActual > 0)
+            {
+                indiceActual--;
+                transform.position = new Vector3(posiciones[indiceActual], transform.position.y, transform.position.z);
+            }
         }
-        
     }
 }

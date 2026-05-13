@@ -4,23 +4,42 @@ using UnityEngine;
 
 public class CajaColisiones : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public float resetHeight = 5f;
+    public float speedIncrement = 0.5f;
+    private Rigidbody rb;
+    private CajaMovimientos cajaMovimientos;
+
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
+        cajaMovimientos = GetComponent<CajaMovimientos>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     void OnCollisionEnter(Collision col)
+    {
+       if (col.gameObject.CompareTag("Player"))
+{
+    FindObjectOfType<UiManager>().DetenerTiempo();
+    cajaMovimientos.enabled = false;
+    rb.velocity = Vector3.zero;
+    rb.isKinematic = true;
+    Destroy(col.gameObject);
+}
+        else if (col.gameObject.CompareTag("Piso"))
         {
-        if(col.gameObject.CompareTag("Player")) {
-          Destroy(col.gameObject);
-    }else if(col.gameObject.CompareTag("Piso")) {
-        //reposicionarse
-      }
-    } 
+            cajaMovimientos.speed += speedIncrement;
+            Reposicionar();
+        }
+    }
+
+    void Reposicionar()
+    {
+        float[] posicionesX = { -2f, 0f, 2f };
+        int index = Random.Range(0, posicionesX.Length);
+        float nuevaX = posicionesX[index];
+
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        transform.position = new Vector3(nuevaX, resetHeight, transform.position.z);
+    }
 }
